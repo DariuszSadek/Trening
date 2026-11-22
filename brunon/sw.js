@@ -1,6 +1,6 @@
 // Service worker aplikacji syna – generowany przez tools/build.py z synowie/sw-template.js.
 /*BUILD:BEGIN*/
-const CACHE = 'brunon-1.1.1-1f992be02a';
+const CACHE = 'brunon-1.1.2-2db2d22764';
 const PREFIX = 'brunon-';
 const ASSETS = ["./", "index.html", "manifest.webmanifest", "icon-180.png", "icon-192.png", "icon-512.png", "../css/app.css", "../synowie/syn.css", "../synowie/app-syn.js", "../synowie/plan-syn.js", "../synowie/version.js", "../js/cwiczenia.js", "../js/figs.js", "../js/figure.js", "../js/sound.js", "../assets/fonts/OFL.txt", "../assets/fonts/libre-baskerville-latin-400-italic.woff2", "../assets/fonts/libre-baskerville-latin-400-normal.woff2", "../assets/fonts/libre-baskerville-latin-700-normal.woff2", "../assets/fonts/libre-baskerville-latin-ext-400-italic.woff2", "../assets/fonts/libre-baskerville-latin-ext-400-normal.woff2", "../assets/fonts/libre-baskerville-latin-ext-700-normal.woff2"];
 /*BUILD:END*/

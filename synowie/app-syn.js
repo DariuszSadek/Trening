@@ -162,7 +162,6 @@ function renderHome() {
       <button class="card day-card${id === nd ? ' next' : ''}" data-start="${id}">
         <div class="dc-head"><span class="dc-title">${d.title}</span>${id === nd ? '<span class="badge">następny</span>' : ''}</div>
         <div>${d.focus}</div><div class="mute small num">ok. ${estMinutes(d)} min</div></button>`; }).join('')}
-    <div class="note small"><b>Bezpieczeństwo:</b> pierwsze tygodnie tylko pod okiem taty albo trenera. Ból w stawie albo ostry ból – przerywasz ćwiczenie.</div>
     <div class="menu-list">
       <button class="btn wide" data-go="zasady">Zasady: fazy, zapas powtórzeń, ciężary</button>
       <button class="btn wide" data-go="jedzenie">Jedzenie i sen – bez tego masy nie będzie</button>
