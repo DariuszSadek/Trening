@@ -1,6 +1,6 @@
 // Service worker – lista plików i wersja cache aktualizowane przez tools/build.py.
 /*BUILD:BEGIN*/
-const CACHE = 'trening-1.0.1-63105d738a';
+const CACHE = 'trening-1.1.0-0ce2fdb56b';
 const ASSETS = ["./", "assets/fonts/OFL.txt", "assets/fonts/libre-baskerville-latin-400-italic.woff2", "assets/fonts/libre-baskerville-latin-400-normal.woff2", "assets/fonts/libre-baskerville-latin-700-normal.woff2", "assets/fonts/libre-baskerville-latin-ext-400-italic.woff2", "assets/fonts/libre-baskerville-latin-ext-400-normal.woff2", "assets/fonts/libre-baskerville-latin-ext-700-normal.woff2", "assets/icon-180.png", "assets/icon-192.png", "assets/icon-512.png", "css/app.css", "index.html", "js/app.js", "js/cwiczenia.js", "js/figs.js", "js/figure.js", "js/plan.js", "js/sound.js", "js/version.js", "manifest.webmanifest"];
 /*BUILD:END*/
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS.map(u => new Request(u, { cache: 'reload' }))))); });

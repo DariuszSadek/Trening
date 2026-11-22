@@ -627,7 +627,7 @@ function renderRules() {
     <p><b>Seria szczytowa</b> (przysiad, martwy ciąg: krok 5 / 2,5 kg; wyciskanie leżąc: 2,5 kg):</p>
     <ul><li>5 powtórzeń przy RPE ≤ 7 → +5 kg (nogi) / +2,5 kg (wyciskanie).</li><li>RPE 7,5–8 → +2,5 kg.</li><li>RPE 8,5–9 → ten sam ciężar.</li><li>RPE ≥ 9,5 albo mniej niż 5 powtórzeń → −5 kg / −2,5 kg.</li></ul>
     <p><b>Ćwiczenia pomocnicze</b> – progresja podwójna: gdy we wszystkich seriach roboczych zrobisz górną granicę zakresu z zadanym RIR, następnym razem dokładasz jeden krok (sztanga 2,5 kg, hip thrust 5 kg, hantle zwykle 2 kg na hantel, wyciąg – jedna płytka). Do tego czasu dobijasz powtórzenia.</p>
-    <p><b>Podciąganie i dipy</b>: cieńsza guma, gdy robisz górną granicę zakresu; bez gumy 3 × 10 → dociążenie.</p></div>
+    <p><b>Dipy</b>: cieńsza guma, gdy robisz górną granicę zakresu; bez gumy 3 × 10 → dociążenie.</p></div>
   <div class="card"><h3>Przerwy</h3><p>Każda seria ma własną przerwę (widać ją w wierszu). „Zrobione” uruchamia zegar automatycznie. Sygnały: dwa krótkie piknięcia ${S.settings.warn} s przed końcem, odliczanie 3-2-1, na końcu długi podwójny sygnał, czerwony ekran i licznik „po czasie”.</p>
   <p class="small mute">Wg przeglądu z 2024 r. przerwy dłuższe niż 60 s dają niewielką przewagę dla przyrostu mięśni, a powyżej 90 s różnice już nie były widoczne – stąd 90–120 s w ćwiczeniach pomocniczych i dłuższe przerwy po seriach ciężkich.</p></div>
   <div class="card"><h3>RPE → RIR</h3><table class="t"><tr><th>RPE</th><th>RIR</th><th>Co to znaczy</th></tr>${RPE_TABLE.map(r => `<tr><td class="num">${r[0]}</td><td class="num">${r[1]}</td><td>${esc(r[2])}</td></tr>`).join('')}</table></div>

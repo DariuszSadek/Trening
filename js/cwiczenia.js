@@ -326,7 +326,7 @@ export const EX = {
   },
   sciaganie_drazka: {
     name: 'Ściąganie drążka wyciągu do klatki', en: 'Lat pulldown', fig: 'sciaganie_drazka', sprzet: 'wyciąg górny z siedziskiem',
-    cel: 'Najszersze grzbietu i bicepsy – przygotowanie do podciągania na drążku.',
+    cel: 'Pionowe przyciąganie: najszersze grzbietu, mięśnie obłe i bicepsy. W planie taty (dzień A) zastępuje podciąganie – pracują te same mięśnie, ale ciężar dobierasz dokładnie, bez gumy. U synów – przygotowanie do podciągania na drążku.',
     ustawienie: [
       'Ustaw wałek tak, żeby uda były pod nim zablokowane.',
       'Chwyć drążek nachwytem nieco szerzej niż barki i usiądź. Tułów lekko odchylony (10–20°), klatka do góry.',
@@ -338,6 +338,7 @@ export const EX = {
     ],
     tempo: '1 s w dół, 1 s pauzy, 2 s w górę.',
     bledy: ['Ciągnięcie drążka za głowę – nigdy.', 'Mocne odchylanie się i bujanie.', 'Ciągnięcie samymi rękami z barkami przy uszach.'],
+    uwagi: 'Chwyt: drążek prosty nachwytem, ok. 1–1,5 szerokości barków. Gdy barki to źle znoszą, możesz użyć uchwytu neutralnego (równoległego). Progres: gdy we wszystkich seriach zrobisz górną granicę zakresu – następnym razem jedna płytka więcej. Wyciąg z płytkami ładowanymi zamiast stosu działa tak samo.',
   },
   rdl_hantle: {
     name: 'Martwy ciąg rumuński z hantlami', en: 'Dumbbell Romanian deadlift', fig: 'rdl_hantle', sprzet: 'hantle',

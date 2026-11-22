@@ -6,7 +6,7 @@ export const BLOCK_WEEKS = 6; // T1 wejście, T2–T5 progresja, T6 odciążenie
 
 export const DAYS = [
   {
-    id: 'A', title: 'Dzień A', focus: 'Przysiad · wyciskanie skośne · podciąganie',
+    id: 'A', title: 'Dzień A', focus: 'Przysiad · wyciskanie skośne · ściąganie drążka',
     warmup: { minutes: 8, text: 'Bieżnia lub rower: 4 min spokojnie, potem 4 min żwawiej (marsz pod górę, nachylenie 5–8%) – aż lekko się spocisz.' },
     mobPre: ['ankle_rocks', 'hip_9090', 'goblet_hold', 'open_book'],
     blocks: [
@@ -15,7 +15,7 @@ export const DAYS = [
         { k: 'TS', pct: 100, reps: 5, rest: 180 }, { k: 'BO', pct: 85, reps: 8, rest: 120 }, { k: 'BO', pct: 85, reps: 8, rest: 150 }] },
       { type: 'work', ex: 'rdl', warm: [{ pct: 60, reps: 8, rest: 60 }], sets: 2, reps: [8, 10], rir: 3, rest: 120, step: 2.5, last: 120 },
       { type: 'work', ex: 'wyciskanie_skos', warm: [{ pct: 60, reps: 8, rest: 60 }], sets: 3, reps: [8, 10], rir: 2, rest: 120, step: 2, db: true },
-      { type: 'bw', ex: 'podciaganie', sets: 3, reps: [6, 10], rir: 2, rest: 120 },
+      { type: 'work', ex: 'sciaganie_drazka', warm: [{ pct: 60, reps: 10, rest: 60 }], sets: 3, reps: [8, 10], rir: 2, rest: 120, step: 2.5 },
       { type: 'ss', rounds: 2, items: [
         { type: 'work', ex: 'face_pull', reps: [12, 15], rir: 2, rest: 30, step: 2.5 },
         { type: 'work', ex: 'pallof', reps: [10, 10], side: 'stronę', rir: 2, rest: 60, step: 2.5 }] },

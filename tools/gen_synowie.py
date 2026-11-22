@@ -66,7 +66,8 @@ WARMUP = [
     '2 rundy bez przerwy: 10 przysiadów bez obciążenia, 10 krążeń ramion w przód i 10 w tył, 5 wykroków na każdą nogę, 8 pompek z dłońmi na ławce, 10 skłonów-„zawiasów” z rękami na biodrach (biodra w tył, plecy proste).',
     'Przed pierwszym ćwiczeniem siłowym: 1 seria rozgrzewkowa z połową ciężaru × 10 powtórzeń. W kolejnych ćwiczeniach rozgrzewka zwykle nie jest już potrzebna.',
 ]
-CEL_SYN = {'goblet': 'Przysiad z ciężarem trzymanym z przodu: uczy pionowego tułowia i pełnej głębokości. To podstawowy przysiad do nauki techniki – siła całych nóg i pośladków.'}
+CEL_SYN = {'sciaganie_drazka': 'Najszersze grzbietu i bicepsy – przygotowanie do podciągania na drążku.',
+           'goblet': 'Przysiad z ciężarem trzymanym z przodu: uczy pionowego tułowia i pełnej głębokości. To podstawowy przysiad do nauki techniki – siła całych nóg i pośladków.'}
 COOL = ['couch_stretch', 'child_pose', 'hamstring_stretch', 'doorway_pec']
 
 
