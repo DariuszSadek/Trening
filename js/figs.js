@@ -173,6 +173,18 @@ Object.assign(FIG, {
   },
 });
 
+// ── POMPKI NA GRYFIE (zamiast dipów) ──
+Object.assign(FIG, {
+  pompki_gryf: {
+    poses: [
+      { hip: [-37.8, 71.2], torso: 45, neck: 45, ankleN: [-100, 9], ankleF: [-102, 9], footN: -40, footF: -40, handN: [38.6, 65.6], handF: [36.6, 65.6] },
+      { hip: [-25.4, 55.6], torso: 32, neck: 30, ankleN: [-100, 9], ankleF: [-102, 9], footN: -40, footF: -40, handN: [38.6, 65.6], handF: [36.6, 65.6] },
+    ],
+    tl: [[0, 0.5], [1, 2.0], [1, 0.2], [0, 1.0]],
+    eq: [{ t: 'seg', a: [48, 0], b: [48, 130], w: 6, z: 'back' }, { t: 'bar', x: 38.6, y: 65.6 }],
+  },
+});
+
 // ── MOBILNOŚĆ ────────────────────────────────────────────────────────────────
 Object.assign(FIG, {
   ankle_rocks: {

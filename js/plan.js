@@ -36,7 +36,7 @@ export const DAYS = [
       { type: 'work', ex: 'wioslowanie_hantlem', warm: [{ pct: 60, reps: 10, rest: 60 }], sets: 3, reps: [10, 12], side: 'rękę', rir: 2, rest: 90, step: 2, db: true },
       { type: 'ss', rounds: 2, items: [
         { type: 'work', ex: 'goblet', reps: [10, 12], rir: 2, rest: 30, step: 2, db: true },
-        { type: 'bw', ex: 'dipy', reps: [6, 10], rir: 2, rest: 90 }] },
+        { type: 'bw', ex: 'pompki_gryf', reps: [8, 12], rir: 2, rest: 90, aidLabel: 'Wysokość gryfu (otwór / cm):', aidPh: 'np. otwór 9', lower: 'gryf o jeden otwór niżej' }] },
       { type: 'dist', ex: 'farmer', sets: 3, dist: 30, rest: 90, step: 2, db: true },
     ],
     cond: { type: 'steady', name: 'Bieżnia – marsz pod górę', minutes: 15,

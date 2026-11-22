@@ -92,6 +92,14 @@ function lastAid(exId) {
   return r ? { aid: r.aid, last: `${dateTxt(h.s.started)}: ${h.rows.map(r => `${r.aid || ''} ×${r.reps ?? '?'}`).join(', ')}` } : null;
 }
 
+function bwUp(exId, cfg) {
+  const h = historyOf(exId).find(x => x.rows.some(r => r.kind === 'W'));
+  if (!h) return null;
+  const ws = h.rows.filter(r => r.kind === 'W');
+  if (ws.length && ws.every(r => (r.reps ?? 0) >= cfg.reps[1])) return `wszystkie serie ≥ ${cfg.reps[1]} powt. – dziś ${cfg.lower || 'mniej pomocy / więcej oporu'}`;
+  return `dobijaj do ${cfg.reps[1]} powtórzeń w każdej serii`;
+}
+
 // ── budowa wierszy serii ────────────────────────────────────────────────────
 function rowsFor(day, week, plan) {
   const blocks = [];
@@ -137,7 +145,7 @@ function simpleRow(it, plan, week, label, idx) {
     const rt = it.reps[0] === it.reps[1] ? `${it.reps[0]}` : `${it.reps[0]}–${it.reps[1]}`;
     return { ex: it.ex, type: 'work', kind: 'W', label, reps: it.reps[0], repsTxt: rt + sideTxt, kg: W, desc: `RIR ${rir}`, rest: it.rest };
   }
-  if (it.type === 'bw') return { ex: it.ex, type: 'bw', kind: 'W', label, reps: it.reps[0], repsTxt: `${it.reps[0]}–${it.reps[1]}`, kg: null, desc: `RIR ${week === 1 ? it.rir + 1 : it.rir}`, rest: it.rest, aid: true };
+  if (it.type === 'bw') return { ex: it.ex, type: 'bw', kind: 'W', label, reps: it.reps[0], repsTxt: `${it.reps[0]}–${it.reps[1]}`, kg: null, desc: `RIR ${week === 1 ? it.rir + 1 : it.rir}`, rest: it.rest, aid: true, aidPh: it.aidPh };
   if (it.type === 'time') return { ex: it.ex, type: 'time', kind: 'W', label, reps: null, repsTxt: `${it.sec} s${sideTxt}`, kg: null, desc: 'przytrzymanie', rest: it.rest, hold: it.sec, sides: it.side ? 2 : 1 };
   if (it.type === 'dist') return { ex: it.ex, type: 'dist', kind: 'W', label, reps: null, repsTxt: `${it.dist} m`, kg: W, desc: 'kg na rękę', rest: it.rest };
   return {};
@@ -320,10 +328,10 @@ function planLine(exId, type, b, week) {
       <div class="plan-hint">${sg ? `Ostatnio ${esc(sg.last)} → ${esc(sg.why)}.` : `Brak historii – dobierz tak, żeby zrobić ${b.reps ? (b.reps[0] === b.reps[1] ? b.reps[0] : b.reps[0] + '–' + b.reps[1]) + ' powt.' : 'cały dystans'} z zapasem RIR.`} Krok: ${fk(b.step || 2.5)} kg.</div></div>`;
   }
   if (type === 'bw') {
-    const sg = lastAid(exId);
-    return `<div class="plan-line"><label for="p-${exId}">Pomoc (guma) / dociążenie:</label>
-      <input id="p-${exId}" data-plan="${exId}" value="${esc(v || '')}" placeholder="np. czerwona" class="grow">
-      <div class="plan-hint">${sg ? `Ostatnio ${esc(sg.last)}.` : 'Wpisz, jakiej gumy użyłeś (kolor) albo „+5 kg”.'}</div></div>`;
+    const sg = lastAid(exId), up = bwUp(exId, b);
+    return `<div class="plan-line"><label for="p-${exId}">${esc(b.aidLabel || 'Pomoc (guma) / dociążenie:')}</label>
+      <input id="p-${exId}" data-plan="${exId}" value="${esc(v || '')}" placeholder="${esc(b.aidPh || 'np. czerwona')}" class="grow">
+      <div class="plan-hint">${sg ? `Ostatnio ${esc(sg.last)}.` : `Wpisz ${b.aidPh ? 'wysokość gryfu (numer otworu albo cm)' : 'gumę (kolor) albo „+5 kg”'}.`}${up ? ` → ${esc(up)}.` : ''}</div></div>`;
   }
   return '';
 }
@@ -353,7 +361,7 @@ function setRow(r) {
   const meta = `${esc(r.desc)}${r.rpe ? ` · cel RPE ${r.rpe}` : ''} · ${r.ss && r.rest <= 30 ? 'przejście' : 'przerwa'} ${restTxt(r.rest)}`;
   let inputs;
   if (r.type === 'time') inputs = `<button type="button" class="hold-btn s-wide" data-hold="${r.key}">▶ ${r.hold} s${r.sides === 2 ? ' ×2' : ''}</button>`;
-  else if (r.aid) inputs = `<input data-k="aid" data-key="${r.key}" value="${esc(L.aid ?? '')}" placeholder="${esc(S.current.plan[r.ex] || 'guma')}" aria-label="pomoc"><input class="num" inputmode="numeric" data-k="reps" data-key="${r.key}" value="${esc(L.reps ?? '')}" placeholder="${r.reps}" aria-label="powtórzenia">`;
+  else if (r.aid) inputs = `<input data-k="aid" data-key="${r.key}" value="${esc(L.aid ?? '')}" placeholder="${esc(S.current.plan[r.ex] || (r.aidPh ? 'otwór' : 'guma'))}" aria-label="${r.aidPh ? 'wysokość gryfu' : 'pomoc'}"><input class="num" inputmode="numeric" data-k="reps" data-key="${r.key}" value="${esc(L.reps ?? '')}" placeholder="${r.reps}" aria-label="powtórzenia">`;
   else if (r.type === 'dist') inputs = `<input class="num s-wide" inputmode="decimal" data-k="kg" data-key="${r.key}" value="${esc(fk(L.kg))}" placeholder="${kgPh}" aria-label="kg na rękę">`;
   else inputs = `<input class="num" inputmode="decimal" data-k="kg" data-key="${r.key}" value="${esc(fk(L.kg))}" placeholder="${kgPh}" aria-label="kg"${r.bwOnly ? ' disabled' : ''}><input class="num" inputmode="numeric" data-k="reps" data-key="${r.key}" value="${esc(L.reps ?? '')}" placeholder="${r.reps}" aria-label="powtórzenia">`;
   const rpe = r.kind === 'TS' && done ? `<div class="rpe">RPE serii: ${[6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10].map(v => `<button type="button" data-rpe="${v}" data-key="${r.key}" class="${L.rpe === v ? 'on' : ''}">${fk(v)}</button>`).join('')}</div>` : '';
@@ -432,7 +440,7 @@ function refreshRowsOf(exId) {
       const lab = el.querySelector('.s-lab'); const tmp = document.createElement('div'); tmp.innerHTML = setRow(r);
       lab.replaceWith(tmp.firstElementChild.querySelector('.s-lab'));
       const kgIn = el.querySelector('[data-k=kg]'); if (kgIn && !r.bwOnly) kgIn.placeholder = r.kg != null ? fk(r.kg) : 'kg';
-      const aidIn = el.querySelector('[data-k=aid]'); if (aidIn) aidIn.placeholder = c.plan[exId] || 'guma';
+      const aidIn = el.querySelector('[data-k=aid]'); if (aidIn) aidIn.placeholder = c.plan[exId] || (r.aidPh ? 'otwór' : 'guma');
     }
   }
 }
@@ -627,7 +635,7 @@ function renderRules() {
     <p><b>Seria szczytowa</b> (przysiad, martwy ciąg: krok 5 / 2,5 kg; wyciskanie leżąc: 2,5 kg):</p>
     <ul><li>5 powtórzeń przy RPE ≤ 7 → +5 kg (nogi) / +2,5 kg (wyciskanie).</li><li>RPE 7,5–8 → +2,5 kg.</li><li>RPE 8,5–9 → ten sam ciężar.</li><li>RPE ≥ 9,5 albo mniej niż 5 powtórzeń → −5 kg / −2,5 kg.</li></ul>
     <p><b>Ćwiczenia pomocnicze</b> – progresja podwójna: gdy we wszystkich seriach roboczych zrobisz górną granicę zakresu z zadanym RIR, następnym razem dokładasz jeden krok (sztanga 2,5 kg, hip thrust 5 kg, hantle zwykle 2 kg na hantel, wyciąg – jedna płytka). Do tego czasu dobijasz powtórzenia.</p>
-    <p><b>Dipy</b>: cieńsza guma, gdy robisz górną granicę zakresu; bez gumy 3 × 10 → dociążenie.</p></div>
+    <p><b>Pompki na gryfie</b> (dzień B): gdy w obu seriach zrobisz 12 powtórzeń z 2 w zapasie → następnym razem gryf o jeden otwór niżej i znów od 8 powtórzeń. Po dojściu do podłogi: stopy na podwyższeniu, potem guma przez plecy albo kamizelka. W pomiarach Wurma i wsp. pompka z dłońmi 61 cm nad podłogą obciążała ok. 41% masy ciała, z dłońmi 30 cm – ok. 55%, a zwykła pompka – ok. 64%.</p></div>
   <div class="card"><h3>Przerwy</h3><p>Każda seria ma własną przerwę (widać ją w wierszu). „Zrobione” uruchamia zegar automatycznie. Sygnały: dwa krótkie piknięcia ${S.settings.warn} s przed końcem, odliczanie 3-2-1, na końcu długi podwójny sygnał, czerwony ekran i licznik „po czasie”.</p>
   <p class="small mute">Wg przeglądu z 2024 r. przerwy dłuższe niż 60 s dają niewielką przewagę dla przyrostu mięśni, a powyżej 90 s różnice już nie były widoczne – stąd 90–120 s w ćwiczeniach pomocniczych i dłuższe przerwy po seriach ciężkich.</p></div>
   <div class="card"><h3>RPE → RIR</h3><table class="t"><tr><th>RPE</th><th>RIR</th><th>Co to znaczy</th></tr>${RPE_TABLE.map(r => `<tr><td class="num">${r[0]}</td><td class="num">${r[1]}</td><td>${esc(r[2])}</td></tr>`).join('')}</table></div>
@@ -728,6 +736,8 @@ function renderSources() {
     ['Morton i wsp. 2018 – białko a trening oporowy (meta-analiza), BJSM 52:376–384', 'https://pubmed.ncbi.nlm.nih.gov/28698222/'],
     ['Vargas-Molina i wsp. 2024 – dieta keto a siła (meta-analiza), Nutrients 16:2200', 'https://pubmed.ncbi.nlm.nih.gov/39064644/'],
     ['Przegląd 2022 – dieta keto a wydolność i skład ciała u trenujących', 'https://pubmed.ncbi.nlm.nih.gov/35757868/'],
+    ['Wurm, …, Ebben – Kinetic analysis of several variations of push-ups (ISBS, siły reakcji podłoża w wariantach pompek)', 'https://ojs.ub.uni-konstanz.de/cpa/article/view/4457'],
+    ['Calatayud i wsp. 2015 – wyciskanie leżąc i pompki: podobne przyrosty siły, JSCR 29(1):246–253', 'https://pubmed.ncbi.nlm.nih.gov/24983847/'],
     ['Diety od Brokuła – opis diety keto', 'https://dietyodbrokula.pl/keto.html'],
     ['Safari 18.4 – naprawa Wake Lock w aplikacjach z ekranu początkowego', 'https://developer.apple.com/documentation/safari-release-notes/safari-18_4-release-notes'],
     ['Audio Session API (MDN)', 'https://developer.mozilla.org/en-US/docs/Web/API/Audio_Session_API'],

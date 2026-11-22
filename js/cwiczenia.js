@@ -189,6 +189,23 @@ export const EX = {
     bledy: ['Zbyt głębokie opuszczanie z barkami wypchniętymi do przodu.', 'Łokcie rozjeżdżają się na boki.', 'Bujanie nogami.'],
     uwagi: 'Ból z przodu barku = skróć zakres albo zamień na pompki z nogami na podwyższeniu.',
   },
+  pompki_gryf: {
+    short: 'Pompki na gryfie', name: 'Pompki z dłońmi na gryfie (na podwyższeniu)', en: 'Incline push-up (hands on a racked barbell / Smith bar)', fig: 'pompki_gryf', sprzet: 'sztanga na hakach lub bolcach w klatce albo zablokowany gryf w maszynie Smitha',
+    cel: 'Zastępuje dipy: klatka, przednie barki, tricepsy i napięty tułów. Trudność reguluje wysokość gryfu – im wyżej dłonie, tym lżej. Każde obniżenie gryfu o jeden otwór to kolejny krok progresji, aż do pompek z podłogi, a potem pompek z obciążeniem.',
+    ustawienie: [
+      'Gryf na hakach/bolcach klatki albo zablokowany w maszynie Smitha. Na start mniej więcej na wysokości bioder – dobierz tak, żeby zrobić 8–12 powtórzeń z 2 w zapasie. Zapisz numer otworu (pole „Wysokość gryfu”).',
+      'Chwyć gryf nachwytem nieco szerzej niż barki i odejdź stopami do tyłu, aż ciało od pięt do głowy będzie w linii prostej, a dłonie pod barkami.',
+      'Stopy razem lub na szerokość bioder, na palcach; brzuch i pośladki napięte.',
+    ],
+    wykonanie: [
+      'Opuszczaj klatkę do gryfu, łokcie ok. 45° od tułowia (nie na boki).',
+      'Dotknij gryfu dolną częścią klatki (okolice mostka) bez rozluźniania ciała.',
+      'Wypchnij się do wyprostu łokci – ciało cały czas sztywne jak deska; na górze lekko rozsuń łopatki.',
+    ],
+    tempo: 'W dół 2 s, w górę ok. 1 s.',
+    bledy: ['Biodra opadają albo wypinają się w górę.', 'Głowa idzie pierwsza do gryfu.', 'Łokcie na boki (kształt litery T).', 'Niestabilny gryf: w Smithie zawsze zablokowany na hakach, w klatce sprawdź, że leży pewnie na hakach/bolcach.'],
+    uwagi: 'Progres: gdy w obu seriach zrobisz 12 powtórzeń z 2 w zapasie → następnym razem gryf o jeden otwór niżej i znów od 8. Po dojściu do podłogi: stopy na podwyższeniu, potem guma przełożona przez plecy (końce pod dłońmi) albo kamizelka obciążeniowa.',
+  },
   farmer: {
     name: 'Spacer farmera', en: "Farmer's walk", fig: 'farmer', sprzet: 'dwa ciężkie hantle lub kettlebelle',
     cel: 'Uchwyt, stabilizacja tułowia i kondycja – „noszenie zakupów” w wersji siłowej, bardzo przydatne w życiu codziennym.',
