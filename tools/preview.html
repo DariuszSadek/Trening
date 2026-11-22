@@ -1,0 +1,19 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+body{font:12px sans-serif;margin:8px;background:#fff}
+.g{display:grid;grid-template-columns:repeat(var(--cols,3),1fr);gap:6px}
+.c{border:1px solid #ccc;padding:2px}.c b{display:block}
+.fig{width:100%;height:auto}
+</style></head><body><div class="g" id="g"></div>
+<script type="module">
+import { svgString, INLINE_CSS } from '../js/figure.js';
+import { FIG } from '../js/figs.js';
+const st=document.createElement('style');st.textContent=INLINE_CSS;document.head.appendChild(st);
+const only=new URLSearchParams(location.search).get('only');
+const g=document.getElementById('g');
+for(const [id,spec] of Object.entries(FIG)){
+  if(only && !only.split(',').includes(id)) continue;
+  spec.poses.forEach((p,i)=>{const d=document.createElement('div');d.className='c';d.innerHTML='<b>'+id+' #'+i+'</b>'+svgString(spec,null,{frame:i});g.appendChild(d);});
+}
+document.title='ok';
+</script></body></html>
