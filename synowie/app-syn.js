@@ -36,12 +36,18 @@ const rr = r => r[0] === r[1] ? `${r[0]}` : `${r[0]}–${r[1]}`;
 function toast(msg, ms = 2200) { const d = document.createElement('div'); d.className = 'toast'; d.textContent = msg; document.body.appendChild(d); setTimeout(() => d.remove(), ms); }
 
 // ── tydzień, faza, kolejny trening ──────────────────────────────────────────
-function currentWeek() {
+// Tygodnie nieparzyste: A–B–A, parzyste: B–A–B (tydzień = 3 kolejne treningi)
+const SCHED = w => (w % 2 ? ['A', 'B', 'A'] : ['B', 'A', 'B']);
+const schedTxt = w => SCHED(w).join(' – ');
+function weekInfo() {
   const ws = S.weekStart || { count: 0, week: 1 };
   const done = Math.max(0, S.sessions.length - ws.count);
-  return Math.min(WEEKS, ws.week + Math.floor(done / 3));
+  const raw = ws.week + Math.floor(done / 3), slot = done % 3;
+  const doneDays = slot ? S.sessions.slice(-slot).map(x => x.day) : [];
+  return { w: Math.min(WEEKS, raw), raw, slot, doneDays, sched: SCHED(raw) };
 }
-function nextDay() { const last = S.sessions[S.sessions.length - 1]; return !last ? 'A' : (last.day === 'A' ? 'B' : 'A'); }
+function currentWeek() { return weekInfo().w; }
+function nextDay() { const k = weekInfo(); return k.sched[k.slot]; }
 
 // ── historia i sugestie ─────────────────────────────────────────────────────
 function historyOf(exId) {
@@ -147,15 +153,23 @@ function estMinutes(day) {
   return Math.round(s / 60 / 5) * 5;
 }
 function renderHome() {
-  const w = currentWeek(), ph = phaseOf(w), nd = nextDay();
+  const k = weekInfo(), w = k.w, ph = phaseOf(w), nd = nextDay();
+  const slots = k.sched.map((d, i) => {
+    if (i < k.slot) return `<span class="done">${i + 1}. ${k.doneDays[i]} ✓</span>`;
+    if (i === k.slot) return `<span class="on">${i + 1}. ${S.current ? `${esc(S.current.day)} · w trakcie` : `${d} · teraz`}</span>`;
+    return `<span>${i + 1}. ${d}</span>`;
+  }).join('');
   main.innerHTML = `
     <h1>Cześć, ${esc(S.name)}!</h1>
     <div class="mute small">Trening całego ciała 3 razy w tygodniu, nigdy dwa dni pod rząd. Treningi A i B na zmianę.</div>
     <div class="card">
       <div class="row"><b class="grow">Tydzień ${w} z ${WEEKS}</b>
-        <select id="week-sel" aria-label="Zmień tydzień">${Array.from({ length: WEEKS }, (_, i) => i + 1).map(i => `<option value="${i}"${i === w ? ' selected' : ''}>tydz. ${i}</option>`).join('')}</select></div>
+        <select id="week-sel" aria-label="Zmień tydzień">${Array.from({ length: WEEKS }, (_, i) => i + 1).map(i => `<option value="${i}"${i === w ? ' selected' : ''}>tydz. ${i}: ${SCHED(i).join('–')}</option>`).join('')}</select></div>
       <div class="weekbox">${PHASES.map(p => `<span class="${p.n === ph.n ? 'on' : ''}">F${p.n}: tyg. ${p.from}–${p.to}</span>`).join('')}</div>
       <p class="small"><b>${ph.name}.</b> ${ph.note}</p>
+      <div class="small"><b>Kolejność w tym tygodniu: ${schedTxt(k.raw)}</b></div>
+      <div class="weekbox slots">${slots}</div>
+      ${k.raw < WEEKS ? `<div class="mute small">Następny tydzień (${k.raw + 1}): ${schedTxt(k.raw + 1)}</div>` : ''}
     </div>
     ${S.current ? `<button class="btn primary wide" data-go="trening">Wróć do treningu ${esc(S.current.day)} (start ${timeTxt(S.current.started)})</button>` : ''}
     ${['A', 'B'].map(id => { const d = DAYS[id]; return `
@@ -407,7 +421,10 @@ function renderRules() {
     <li>Technika przed ciężarem. Ciężar rośnie dopiero, gdy ruch wygląda dokładnie jak w opisie.</li>
     <li>Ból w stawie, kręgosłupie albo ostry ból (inny niż zmęczenie i „pieczenie” mięśnia) = przerywasz ćwiczenie i nie wracasz do niego bez konsultacji.</li>
     <li>Żadnych serii „do upadku” i prób maksymalnego ciężaru – zawsze zostaje zapas powtórzeń.</li></ul></div>
-  <div class="card"><h3>Tydzień</h3><p>3 treningi, nigdy dwa dni pod rząd (np. pon–śr–pt). A i B na zmianę: tydzień 1: A–B–A, tydzień 2: B–A–B… Aplikacja sama podświetla następny.</p></div>
+  <div class="card"><h3>Tydzień</h3><p>3 treningi, nigdy dwa dni pod rząd (np. pon–śr–pt). A i B na zmianę, więc kolejność zmienia się co tydzień: tygodnie nieparzyste <b>A – B – A</b>, parzyste <b>B – A – B</b>. Tydzień w aplikacji to 3 kolejne treningi – liczy się po zapisaniu trzeciego. Następny trening jest podświetlony na ekranie głównym.</p>
+    <table class="t sched"><tr><th>Tydzień</th><th>Faza</th><th>1.</th><th>2.</th><th>3.</th></tr>
+    ${Array.from({ length: WEEKS }, (_, i) => i + 1).map(i => `<tr${i === currentWeek() ? ' class="cur"' : ''}><td class="num">${i}</td><td class="num">F${phaseOf(i).n}</td>${SCHED(i).map(d => `<td class="num">${d}</td>`).join('')}</tr>`).join('')}</table>
+    <p class="mute small">W 12 tygodni: po 18 treningów A i B. Tydzień zmienisz na ekranie głównym (lista przy „Tydzień … z 12”).</p></div>
   <div class="card"><h3>Fazy</h3><table class="t"><tr><th>Faza</th><th>Tygodnie</th><th>Serie × powt.</th><th>Zapas</th></tr>
     <tr><td>1 – technika</td><td class="num">1–4</td><td class="num">2 × 12–15</td><td class="num">3–4</td></tr>
     <tr><td>2 – budowa</td><td class="num">5–8</td><td class="num">3 × 10–12</td><td class="num">2–3</td></tr>

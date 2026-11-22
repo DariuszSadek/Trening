@@ -7,3 +7,8 @@ html[data-app=tymon] { --navy: #7a2e3b; --navy2: #95394a; }
 .field input:not([type]), .field input[type=text] { height: 44px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--ink); padding: 0 10px; font: 16px var(--num); }
 .weekbox span { font-size: 11px; }
 ol.m-opis { padding-left: 20px; margin: 4px 0; }
+.weekbox.slots span.done { background: var(--chip); color: var(--mute); }
+.weekbox.slots span { font-size: 12px; }
+table.sched td, table.sched th { text-align: center; }
+table.sched tr.cur td { background: var(--navy); color: #fff; font-weight: 700; }
+.weekbox.slots { margin: 6px 0; }
