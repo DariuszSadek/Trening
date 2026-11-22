@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pl" data-app="syn2">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'">
+<meta name="theme-color" content="#7a2e3b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Trening 2">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-192.png">
+<link rel="stylesheet" href="../css/app.css">
+<link rel="stylesheet" href="../synowie/syn.css">
+<title>Trening 2</title>
+</head>
+<body>
+<div id="update-banner" hidden>
+  <span>Dostępna nowa wersja aplikacji.</span>
+  <button id="update-btn" type="button">Zaktualizuj</button>
+</div>
+<header id="bar">
+  <button id="btn-home" type="button" class="bar-title" aria-label="Ekran główny">Trening</button>
+  <div id="bar-info" aria-live="polite"></div>
+  <button id="btn-menu" type="button" class="bar-menu" aria-label="Menu">☰</button>
+</header>
+<main id="main"></main>
+<div id="timer" hidden>
+  <div class="t-bar"><div class="t-fill"></div></div>
+  <div class="t-row">
+    <div class="t-txt">
+      <div class="t-label"></div>
+      <div class="t-next"></div>
+    </div>
+    <div class="t-time">0:00</div>
+  </div>
+  <div class="t-btns">
+    <button type="button" data-t="-15">−15 s</button>
+    <button type="button" data-t="+15">+15 s</button>
+    <button type="button" data-t="skip" class="t-skip">Pomiń</button>
+  </div>
+</div>
+<div id="flash" hidden></div>
+<dialog id="dlg"></dialog>
+<input id="file-input" type="file" accept=".json,application/json" hidden>
+<script type="module" src="../synowie/app-syn.js"></script>
+</body>
+</html>

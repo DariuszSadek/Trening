@@ -1,0 +1,9 @@
+html[data-app=syn1] { --navy: #2b6a4c; --navy2: #2f7d58; }
+html[data-app=syn2] { --navy: #7a2e3b; --navy2: #95394a; }
+@media (prefers-color-scheme: dark) {
+  html[data-app=syn1] a, html[data-app=syn1] .ex-more { color: #8fd3b0; }
+  html[data-app=syn2] a, html[data-app=syn2] .ex-more { color: #f0a7b3; }
+}
+.field input:not([type]), .field input[type=text] { height: 44px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--ink); padding: 0 10px; font: 16px var(--num); }
+.weekbox span { font-size: 11px; }
+ol.m-opis { padding-left: 20px; margin: 4px 0; }

@@ -1,0 +1,17 @@
+{
+  "name": "Trening 1",
+  "short_name": "Trening 1",
+  "description": "Plan treningowy FBW dla początkujących – osobna aplikacja nr 1",
+  "lang": "pl",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4f2ee",
+  "theme_color": "#2b6a4c",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
