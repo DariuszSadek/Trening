@@ -4,7 +4,14 @@ const CACHE = 'synX-dev';
 const PREFIX = 'synX-';
 const ASSETS = [];
 /*BUILD:END*/
-self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS.map(u => new Request(u, { cache: 'reload' }))))); });
+// Pobieranie z parametrem wersji omija pamięć CDN GitHub Pages (inaczej nowa wersja mogłaby zapisać stare pliki)
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE).then(c => Promise.all(ASSETS.map(async u => {
+    const r = await fetch(u + (u.includes('?') ? '&' : '?') + 'v=' + CACHE, { cache: 'reload' });
+    if (!r.ok) throw new Error(u + ' ' + r.status);
+    await c.put(u, r);
+  }))));
+});
 self.addEventListener('activate', e => {
   e.waitUntil((async () => {
     for (const k of await caches.keys()) if (k.startsWith(PREFIX) && k !== CACHE) await caches.delete(k);

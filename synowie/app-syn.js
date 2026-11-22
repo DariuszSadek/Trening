@@ -12,7 +12,7 @@ const KEY = `trening.${APP}.v1`;
 const DEF = { v: 1, app: APP, name: NAME0, settings: { warn: 10, sound: 'mix', volume: 0.8, wake: true }, sessions: [], current: null, weekStart: { count: 0, week: 1 } };
 let S = load();
 function load() {
-  try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.v === 1) return { ...DEF, ...s, settings: { ...DEF.settings, ...s.settings } }; } catch { /* pusty */ }
+  try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.v === 1) { if (!s.name && NAME0) s.name = NAME0; return { ...DEF, ...s, settings: { ...DEF.settings, ...s.settings } }; } } catch { /* pusty */ }
   return structuredClone(DEF);
 }
 let saveT = 0;

@@ -1,10 +1,17 @@
 // Service worker aplikacji syna – generowany przez tools/build.py z synowie/sw-template.js.
 /*BUILD:BEGIN*/
-const CACHE = 'brunon-1.1.0-dab45b9abf';
+const CACHE = 'brunon-1.1.1-1f992be02a';
 const PREFIX = 'brunon-';
 const ASSETS = ["./", "index.html", "manifest.webmanifest", "icon-180.png", "icon-192.png", "icon-512.png", "../css/app.css", "../synowie/syn.css", "../synowie/app-syn.js", "../synowie/plan-syn.js", "../synowie/version.js", "../js/cwiczenia.js", "../js/figs.js", "../js/figure.js", "../js/sound.js", "../assets/fonts/OFL.txt", "../assets/fonts/libre-baskerville-latin-400-italic.woff2", "../assets/fonts/libre-baskerville-latin-400-normal.woff2", "../assets/fonts/libre-baskerville-latin-700-normal.woff2", "../assets/fonts/libre-baskerville-latin-ext-400-italic.woff2", "../assets/fonts/libre-baskerville-latin-ext-400-normal.woff2", "../assets/fonts/libre-baskerville-latin-ext-700-normal.woff2"];
 /*BUILD:END*/
-self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS.map(u => new Request(u, { cache: 'reload' }))))); });
+// Pobieranie z parametrem wersji omija pamięć CDN GitHub Pages (inaczej nowa wersja mogłaby zapisać stare pliki)
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE).then(c => Promise.all(ASSETS.map(async u => {
+    const r = await fetch(u + (u.includes('?') ? '&' : '?') + 'v=' + CACHE, { cache: 'reload' });
+    if (!r.ok) throw new Error(u + ' ' + r.status);
+    await c.put(u, r);
+  }))));
+});
 self.addEventListener('activate', e => {
   e.waitUntil((async () => {
     for (const k of await caches.keys()) if (k.startsWith(PREFIX) && k !== CACHE) await caches.delete(k);
