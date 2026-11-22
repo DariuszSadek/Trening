@@ -1,7 +1,7 @@
 {
-  "name": "Trening 2",
-  "short_name": "Trening 2",
-  "description": "Plan treningowy FBW dla początkujących – osobna aplikacja nr 2",
+  "name": "Trening – Tymon",
+  "short_name": "Trening Tymon",
+  "description": "Plan treningowy FBW dla początkujących – aplikacja: Tymon",
   "lang": "pl",
   "id": "./",
   "start_url": "./",

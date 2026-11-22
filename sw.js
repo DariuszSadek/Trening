@@ -1,6 +1,6 @@
 // Service worker – lista plików i wersja cache aktualizowane przez tools/build.py.
 /*BUILD:BEGIN*/
-const CACHE = 'trening-1.2.1-7d74e62348';
+const CACHE = 'trening-1.2.2-6ceabebbbe';
 const ASSETS = ["./", "assets/fonts/OFL.txt", "assets/fonts/libre-baskerville-latin-400-italic.woff2", "assets/fonts/libre-baskerville-latin-400-normal.woff2", "assets/fonts/libre-baskerville-latin-700-normal.woff2", "assets/fonts/libre-baskerville-latin-ext-400-italic.woff2", "assets/fonts/libre-baskerville-latin-ext-400-normal.woff2", "assets/fonts/libre-baskerville-latin-ext-700-normal.woff2", "assets/icon-180.png", "assets/icon-192.png", "assets/icon-512.png", "css/app.css", "index.html", "js/app.js", "js/cwiczenia.js", "js/figs.js", "js/figure.js", "js/plan.js", "js/sound.js", "js/version.js", "manifest.webmanifest"];
 /*BUILD:END*/
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS.map(u => new Request(u, { cache: 'reload' }))))); });
@@ -15,8 +15,8 @@ const ROOT = new URL('./', self.location).pathname;
 self.addEventListener('fetch', e => {
   const req = e.request, url = new URL(req.url);
   if (req.method !== 'GET' || url.origin !== location.origin) return;
-  // aplikacje synów (syn1/, syn2/, synowie/) mają własne service workery – nie przejmuję ich adresów
-  if (url.pathname.startsWith(ROOT + 'syn')) return;
+  // aplikacje synów mają własne service workery – nie przejmuję ich adresów
+  if (['brunon/', 'tymon/', 'synowie/', 'syn1/', 'syn2/'].some(d => url.pathname.startsWith(ROOT + d))) return;
   e.respondWith((async () => {
     const c = await caches.open(CACHE);
     const hit = await c.match(req, { ignoreSearch: true });

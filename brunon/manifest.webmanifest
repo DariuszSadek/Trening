@@ -1,7 +1,7 @@
 {
-  "name": "Trening 1",
-  "short_name": "Trening 1",
-  "description": "Plan treningowy FBW dla początkujących – osobna aplikacja nr 1",
+  "name": "Trening – Brunon",
+  "short_name": "Trening Brunon",
+  "description": "Plan treningowy FBW dla początkujących – aplikacja: Brunon",
   "lang": "pl",
   "id": "./",
   "start_url": "./",

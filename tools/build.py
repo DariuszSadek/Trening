@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Po każdej zmianie plików: nowe wersje cache w sw.js (tata) i syn1/sw.js, syn2/sw.js (synowie).
+"""Po każdej zmianie plików: nowe wersje cache w sw.js (tata) i brunon/sw.js, tymon/sw.js (synowie).
 Użycie: python3 tools/build.py [wersja_taty] [wersja_synów]"""
 import hashlib, json, os, re, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -42,7 +42,7 @@ print('tata:', cache, len(dad) + 1, 'plików')
 vs = set_version(os.path.join(ROOT, 'synowie', 'version.js'), sys.argv[2] if len(sys.argv) > 2 else None)
 shared = ['css/app.css', 'synowie/syn.css', 'synowie/app-syn.js', 'synowie/plan-syn.js', 'synowie/version.js',
           'js/cwiczenia.js', 'js/figs.js', 'js/figure.js', 'js/sound.js'] + files_in('assets/fonts')
-for n in ('syn1', 'syn2'):
+for n in ('brunon', 'tymon'):
     own = [f'{n}/{f}' for f in ('index.html', 'manifest.webmanifest', 'icon-180.png', 'icon-192.png', 'icon-512.png')]
     allp = own + shared
     cache = f"{n}-{vs}-{digest(allp + ['synowie/sw-template.js'])}"

@@ -753,8 +753,8 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
     if (reg.waiting) show();
     reg.addEventListener('updatefound', () => { const w = reg.installing; w && w.addEventListener('statechange', () => { if (w.state === 'installed' && navigator.serviceWorker.controller) show(); }); });
     $('#update-btn').onclick = () => { (reg.waiting) && reg.waiting.postMessage('SKIP_WAITING'); };
-    let reloaded = false;
-    navigator.serviceWorker.addEventListener('controllerchange', () => { if (!reloaded) { reloaded = true; saveNow(); location.reload(); } });
+    let reloaded = false; const hadController = !!navigator.serviceWorker.controller;
+    navigator.serviceWorker.addEventListener('controllerchange', () => { if (hadController && !reloaded) { reloaded = true; saveNow(); location.reload(); } });
   }).catch(() => { /* offline lub brak https */ });
 }
 window.addEventListener('pagehide', saveNow);

@@ -271,14 +271,14 @@ for i, w in enumerate(widths, 1):
     ws.column_dimensions[get_column_letter(i)].width = w
 ws.cell(1, 1, 'Dziennik treningów – wpisujcie każdą serię').font = f_h1
 leg = ('Legenda: żółte pola wypełniacie sami. W polu serii wpisz ciężar × powtórzenia, np. „12×12” (12 kg, 12 powtórzeń); '
-       'przy desce czas, np. „30 s”; przy pompkach same powtórzenia, np. „10”. W wierszach „Syn 1” / „Syn 2” (wiersz 4) wpiszcie swoje imiona. '
+       'przy desce czas, np. „30 s”; przy pompkach same powtórzenia, np. „10”. '
        'Wiersz zielony to przykład wypełnienia.')
 c = ws.cell(2, 1, leg); c.font = f_small; c.alignment = wrap; ws.merge_cells('A2:M2'); ws.row_dimensions[2].height = 44
 hdr = ['Tydz.', 'Sesja', 'Trening', 'Data', 'Ćwiczenie', 'Cel (faza)']
 for j, h in enumerate(hdr, 1):
     c = ws.cell(4, j, h); c.font = f_b; c.fill = fill_lab; c.border = box; c.alignment = wrapc
     ws.merge_cells(start_row=4, start_column=j, end_row=5, end_column=j)
-for k, nm in enumerate(['Syn 1', 'Syn 2']):
+for k, nm in enumerate(['Brunon', 'Tymon']):
     col = 7 + 3 * k
     c = ws.cell(4, col, nm); c.font = f_b; c.fill = fill_in; c.border = box; c.alignment = wrapc
     ws.merge_cells(start_row=4, start_column=col, end_row=4, end_column=col + 2)

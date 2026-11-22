@@ -1,4 +1,4 @@
-// Aplikacja treningowa dla synów – jeden kod, osobna instancja na każdego (syn1/, syn2/), osobne dane.
+// Aplikacja treningowa dla synów – jeden kod, osobna instancja na każdego (brunon/, tymon/), osobne dane.
 import { WEEKS, PHASES, phaseOf, DAYS, WARMUP, COOL, CEL_SYN } from './plan-syn.js';
 import { EX, MOB } from '../js/cwiczenia.js';
 import { FIG } from '../js/figs.js';
@@ -6,9 +6,10 @@ import { animate } from '../js/figure.js';
 import * as snd from '../js/sound.js';
 import { VERSION } from './version.js';
 
-const APP = document.documentElement.dataset.app || 'syn1';
+const APP = document.documentElement.dataset.app || 'brunon';
+const NAME0 = document.documentElement.dataset.name || '';
 const KEY = `trening.${APP}.v1`;
-const DEF = { v: 1, app: APP, name: '', settings: { warn: 10, sound: 'mix', volume: 0.8, wake: true }, sessions: [], current: null, weekStart: { count: 0, week: 1 } };
+const DEF = { v: 1, app: APP, name: NAME0, settings: { warn: 10, sound: 'mix', volume: 0.8, wake: true }, sessions: [], current: null, weekStart: { count: 0, week: 1 } };
 let S = load();
 function load() {
   try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.v === 1) return { ...DEF, ...s, settings: { ...DEF.settings, ...s.settings } }; } catch { /* pusty */ }
@@ -396,7 +397,7 @@ function openMenu() {
     <button class="btn wide" data-go="">Ekran główny</button><button class="btn wide" data-go="zasady">Zasady</button>
     <button class="btn wide" data-go="jedzenie">Jedzenie i sen</button><button class="btn wide" data-go="historia">Moje treningi</button>
     <button class="btn wide" data-go="ustawienia">Ustawienia i kopia danych</button><button class="btn wide" data-go="pomoc">Instalacja i obsługa</button>
-    <button class="btn wide" data-go="zrodla">Źródła</button></div><p class="mute small num">Wersja ${VERSION} · ${APP}</p>`);
+    <button class="btn wide" data-go="zrodla">Źródła</button></div><p class="mute small num">Wersja ${VERSION} · aplikacja: ${esc(NAME0 || APP)}</p>`);
 }
 
 // ── strony informacyjne ─────────────────────────────────────────────────────
@@ -477,7 +478,7 @@ $('#file-input').onchange = async e => {
 function renderHelp() {
   main.innerHTML = `<h1>Instalacja i obsługa</h1>
   <div class="card"><h3>Instalacja na iPhonie</h3><ol>
-    <li>Otwórz w Safari swój adres (dostałeś go od taty).</li>
+    <li>Otwórz w Safari swój adres: <b>dariuszsadek.github.io/Trening/${APP}/</b></li>
     <li>Stuknij <b>Więcej</b> (⋯), potem <b>Udostępnij</b> – albo od razu <b>Udostępnij</b>, jeśli masz układ kart „Na dole” lub „Na górze”.</li>
     <li>Przewiń i stuknij <b>Do ekranu głównego</b> (jeśli jej nie ma: na dole listy <b>Edytuj czynności</b>).</li>
     <li>Włącz <b>Otwórz jako aplikację www</b> → <b>Dodaj</b>.</li>
@@ -506,8 +507,8 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
     if (reg.waiting) show();
     reg.addEventListener('updatefound', () => { const w = reg.installing; w && w.addEventListener('statechange', () => { if (w.state === 'installed' && navigator.serviceWorker.controller) show(); }); });
     $('#update-btn').onclick = () => { reg.waiting && reg.waiting.postMessage('SKIP_WAITING'); };
-    let reloaded = false;
-    navigator.serviceWorker.addEventListener('controllerchange', () => { if (!reloaded) { reloaded = true; saveNow(); location.reload(); } });
+    let reloaded = false; const hadController = !!navigator.serviceWorker.controller;
+    navigator.serviceWorker.addEventListener('controllerchange', () => { if (hadController && !reloaded) { reloaded = true; saveNow(); location.reload(); } });
   }).catch(() => { /* offline */ });
 }
 window.addEventListener('pagehide', saveNow);
