@@ -22,6 +22,7 @@ html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.45 'LB', Baskerville, Georgia, serif; }
 button, input, select { font: inherit; color: inherit; }
 button { cursor: pointer; }
+select { background: var(--card); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; min-height: 34px; padding: 0 6px; font: 15px var(--num); }
 a { color: var(--navy2); }
 @media (prefers-color-scheme: dark) { a { color: #9cc0ea; } }
 
